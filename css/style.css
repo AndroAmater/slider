@@ -8,12 +8,11 @@
 
 .circle {
     position: absolute;
-    margin: 20px;
     height: 422px;
     width: 422px;
     border-radius: 50%;
-    top: 23px;
-    left: 244px;
+    top: 43px;
+    left: 264px;
  }
 
 .circle svg {
@@ -22,9 +21,30 @@
     transform: rotate(-90deg);
 }
 
-.circle circle {
+.circle #circle {
     stroke-width: 22px;
     stroke-dasharray: 7, 1.8;
     fill: none;
-    stroke: #cfcfcf;
+    stroke: #00000012;
+}
+
+.circle #circle-highlight {
+    stroke-width: 22px;
+    stroke-dasharray: 100 100;
+    fill: none;
+    stroke: #755496;
+    stroke-dashoffset: 37;
+}
+
+.circle .nipple {
+    position: absolute;
+    width: 28px;
+    background: #fff;
+    height: 28px;
+    top: 294px;
+    left: 85px;
+    border: solid 1px #dadada;
+    border-radius: 50%;
+    box-shadow: -12px 7px 16px -11px #a9a9a99c inset, 1px 1px 15px 0 #a9a9a9ba;
+    box-sizing: border-box;
 }
