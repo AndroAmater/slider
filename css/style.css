@@ -4,12 +4,13 @@
     left: 51.3px;
     z-index: -10;
     width: 651px;
+    display: none;
 }
 
 .circle {
     position: absolute;
-    height: 422px;
-    width: 422px;
+    height: 318px;
+    width: 318px;
     border-radius: 50%;
     top: 43px;
     left: 264px;
@@ -29,6 +30,7 @@
 }
 
 .circle #circle-highlight {
+    transition: stroke-dashoffset 0.3s;
     stroke-width: 22px;
     stroke-dasharray: 100 100;
     fill: none;
@@ -37,14 +39,14 @@
 }
 
 .circle .nipple {
+    transition: left 0.1s, top 0.3s;
     position: absolute;
     width: 28px;
     background: #fff;
     height: 28px;
-    top: 294px;
-    left: 85px;
     border: solid 1px #dadada;
     border-radius: 50%;
-    box-shadow: -12px 7px 16px -11px #a9a9a99c inset, 1px 1px 15px 0 #a9a9a9ba;
+    box-shadow: -12px 7px 16px -11px #a9a9a99c inset, 1px 1px 15px 0 #00000012;
     box-sizing: border-box;
+    outline: none;
 }
