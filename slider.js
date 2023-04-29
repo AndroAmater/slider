@@ -95,21 +95,44 @@ function getDragCoordinates(event) {
     }
 }
 
-function getDragAngle (event) {
-    let dragCoordinates = getDragCoordinates(event)
-    let relativeX = dragCoordinates.x - circleSize
-    let relativeY = dragCoordinates.y - circleSize
+function getDragAngle (coordinates) {
+    let relativeX = coordinates.x - circleSize
+    let relativeY = coordinates.y - circleSize
     let distance = Math.sqrt((relativeX)**2 * (relativeY)**2)
     let angleRad = Math.atan2(relativeX, relativeY)
     return (angleRad * (180 / Math.PI) - 180) * -1
 }
 
 function handleSliderDrag (event) {
-    console.log(event)
     if (event.screenX === 0) {
         return
     }
-    value = percentToValue(angleToPercent(getDragAngle(event)))
+    value = percentToValue(angleToPercent(getDragAngle(getDragCoordinates(event))))
+    setSliderHighlight(value)
+    setNipplePosition(getNipplePosition(value))
+}
+
+function getTouchDragCoordinates(event) {
+    if (!event?.touches[0]) {
+        return
+    }
+    let circleX = circle.getBoundingClientRect().left
+    let circleY = circle.getBoundingClientRect().top
+    let offsetX = event.touches[0].clientX
+    let offsetY = event.touches[0].clientY
+
+    return {
+        x: offsetX - circleX,
+        y: offsetY - circleY
+    }
+}
+
+
+function handleSliderTouchDrag (event) {
+    if (!event?.touches[0]) {
+        return
+    }
+    value = percentToValue(angleToPercent(getDragAngle(getTouchDragCoordinates(event))))
     setSliderHighlight(value)
     setNipplePosition(getNipplePosition(value))
 }

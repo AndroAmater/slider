@@ -30,7 +30,6 @@
 }
 
 .circle #circle-highlight {
-    transition: stroke-dashoffset 0.3s;
     stroke-width: 22px;
     stroke-dasharray: 100 100;
     fill: none;
@@ -39,7 +38,6 @@
 }
 
 .circle .nipple {
-    transition: left 0.1s, top 0.3s;
     position: absolute;
     width: 28px;
     background: #fff;
