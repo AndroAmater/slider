@@ -61,6 +61,10 @@ class CircularSliderContainer extends HTMLElement {
             label.className = "circular-slider-legend__label"
             label.innerHTML = sliderOptions.label
 
+            slider.addEventListener('input', event => {
+                value.innerHTML = `${sliderOptions.prefix}${event.data}`
+            })
+
             // I had these as a separate web component, but I can't use grid
             // to size them appropriately that way. I tried subgrid but shadow
             // DOM encapsulation prevents me from setting a subgrid
@@ -86,7 +90,6 @@ class CircularSliderContainer extends HTMLElement {
         }
 
         if (!options[0]) return
-        console.log(options[0])
         this.slidersContainer.style.width = options[0].size * 2 + 50 + "px"
         this.slidersContainer.style.height = options[0].size * 2 + 50 + "px"
     }

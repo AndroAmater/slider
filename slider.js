@@ -174,6 +174,9 @@ class CircularSlider extends HTMLElement {
         this.setNipplePosition(
             this.getNipplePosition(this.value)
         )
+
+        const inputEvent = new InputEvent("input", { data: this.value })
+        this.dispatchEvent(inputEvent)
     }
 
     getTouchDragCoordinates(event) {
@@ -206,6 +209,9 @@ class CircularSlider extends HTMLElement {
         this.setNipplePosition(
             this.getNipplePosition(this.value)
         )
+
+        const inputEvent = new InputEvent("input", { data: this.value })
+        this.dispatchEvent(inputEvent)
     }
 }
 
