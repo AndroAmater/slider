@@ -24,15 +24,22 @@
     stroke-dashoffset: 37;
 }
 
-#nipple {
-    z-index: 1;
+.nipple-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 0;
     position: absolute;
+    z-index: 1;
+}
+
+.nipple {
     width: 28px;
     background: #fff;
     height: 28px;
     border: solid 1px #dadada;
     border-radius: 50%;
-    box-shadow: -12px 7px 16px -11px #a9a9a99c inset, 1px 1px 15px 0 #00000012;
+    box-shadow: -14px 0px 16px -11px #a9a9a99c inset, 1px 1px 15px 0 #00000012;
     box-sizing: border-box;
     outline: none;
 }
