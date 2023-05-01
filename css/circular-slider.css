@@ -25,6 +25,7 @@
 }
 
 #nipple {
+    z-index: 1;
     position: absolute;
     width: 28px;
     background: #fff;

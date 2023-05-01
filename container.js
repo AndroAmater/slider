@@ -46,10 +46,20 @@ class CircularSliderContainer extends HTMLElement {
             const slider = new CircularSlider()
             slider.options = sliderOptions
 
+            const valueContainer = document.createElement("div")
+            valueContainer.className = "circular-slider-legend__value-container"
+
             const value = document.createElement("span")
             value.id = "value"
-            value.className = "circular-slider-legend__value"
             value.innerHTML = `${sliderOptions.prefix}${sliderOptions.value}`
+            value.className = "circular-slider-legend__value"
+
+            const valueSizer = document.createElement("span")
+            valueSizer.innerHTML = `${sliderOptions.prefix}${sliderOptions.value}`.split("").map(e => "W").join("")
+
+            valueSizer.className = "circular-slider-legend__value-sizer"
+            valueContainer.appendChild(valueSizer)
+            valueContainer.appendChild(value)
 
             const color = document.createElement("span")
             color.id = "color"
@@ -77,7 +87,7 @@ class CircularSliderContainer extends HTMLElement {
             }
 
             this.slidersContainer.appendChild(slider)
-            this.legendsContainer.appendChild(value)
+            this.legendsContainer.appendChild(valueContainer)
             this.legendsContainer.appendChild(color)
             this.legendsContainer.appendChild(label)
 
