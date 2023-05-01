@@ -8,7 +8,64 @@
     </head>
     <body>
         <img src="template.png" class="template"/>
-        <circular-slider id="slider"></circular-slider>
+        <circular-slider-container id="slider-container"></circular-slider-container>
         <script type="text/javascript" src="slider.js"></script>
+        <script type="text/javascript" src="container.js"></script>
+        <script>
+            const sliderContainer = document.getElementById('slider-container')
+            console.log(sliderContainer)
+            sliderContainer.options = [
+                {
+                    prefix: "$",
+                    label: "Transportation",
+                    color: "#62477E",
+                    size: 182,
+                    value: 750,
+                    max: 1000,
+                    min: 0,
+                    step: 50
+                },
+                {
+                    prefix: "$",
+                    label: "Food",
+                    color: "#0D84C8",
+                    size: 148,
+                    value: 650,
+                    max: 1000,
+                    min: 0,
+                    step: 50
+                },
+                {
+                    prefix: "$",
+                    label: "Insurance",
+                    color: "#53A11F",
+                    size: 116,
+                    value: 500,
+                    max: 1000,
+                    min: 0,
+                    step: 50
+                },
+                {
+                    prefix: "$",
+                    label: "Entertainment",
+                    color: "#F0902C",
+                    size: 84,
+                    value: 800,
+                    max: 1000,
+                    min: 0,
+                    step: 50
+                },
+                {
+                    prefix: "$",
+                    label: "Health care",
+                    color: "#F25E4F",
+                    size: 51,
+                    value: 200,
+                    max: 1000,
+                    min: 0,
+                    step: 50
+                },
+            ]
+        </script>
     </body>
 </html>

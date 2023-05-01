@@ -1,4 +1,3 @@
-
 class CircularSlider extends HTMLElement {
     constructor() {
         super();
@@ -26,7 +25,7 @@ class CircularSlider extends HTMLElement {
 
     _options = {}
 
-    sliderSize = 148
+    size = 148
     value = 10
     max = 100
     min = 100
@@ -50,19 +49,21 @@ class CircularSlider extends HTMLElement {
     }
 
     updateContent(options) {
+        if (!this.isConnected) return
         const sliderStrokeWidth = 22
 
-        this.sliderSize = options.sliderSize || 148
+        this.size = options.size || 148
         this.value = options.value || 0
         this.max = options.max || 1
         this.min = options.min || 0
         this.step = options.step || 1
 
-        this.slider.style.width = `${2 * this.sliderSize + sliderStrokeWidth}px`
-        this.slider.style.height = `${2 * this.sliderSize + sliderStrokeWidth}px`
-        this.sliderBackground.style['stroke-dasharray'] = `${this.calculateDashWidth(this.sliderSize)}px, 2px`
-        this.sliderBackground.setAttribute('r', this.sliderSize)
-        this.sliderHighlight.setAttribute('r', this.sliderSize)
+        this.slider.style.width = `${2 * this.size + sliderStrokeWidth}px`
+        this.slider.style.height = `${2 * this.size + sliderStrokeWidth}px`
+        this.sliderBackground.style['stroke-dasharray'] = `${this.calculateDashWidth(this.size)}px, 2px`
+        this.sliderBackground.setAttribute('r', this.size)
+        this.sliderHighlight.setAttribute('r', this.size)
+        this.sliderHighlight.style.stroke = options.color
 
         this.setSliderHighlight(this.value)
         this.setNipplePosition(this.getNipplePosition(this.value))
@@ -97,7 +98,7 @@ class CircularSlider extends HTMLElement {
     }
 
     percentToValue (percentage){
-        return this.round(100 / ( this.max - this.min ) * percentage, this.step)
+        return this.round(( this.max - this.min ) / 100 * percentage, this.step)
     }
 
     round(number, increment) {
@@ -105,7 +106,7 @@ class CircularSlider extends HTMLElement {
     }
 
     getCircumference() {
-        return 2 * Math.PI * this.sliderSize
+        return 2 * Math.PI * this.size
     }
 
     setSliderHighlight (value) {
@@ -121,8 +122,8 @@ class CircularSlider extends HTMLElement {
         const progressRad = progressPosition * (Math.PI / 180)
         console.log()
         return {
-            left: this.sliderSize + this.sliderSize * Math.cos(progressRad),
-            top: this.sliderSize + this.sliderSize * Math.sin(progressRad)
+            left: this.size + this.size * Math.cos(progressRad),
+            top: this.size + this.size * Math.sin(progressRad)
         }
     }
 
@@ -151,8 +152,8 @@ class CircularSlider extends HTMLElement {
     }
 
     getDragAngle (coordinates) {
-        let relativeX = coordinates.x - this.sliderSize
-        let relativeY = coordinates.y - this.sliderSize
+        let relativeX = coordinates.x - this.size
+        let relativeY = coordinates.y - this.size
         let distance = Math.sqrt(relativeX ** 2 * relativeY ** 2)
         let angleRad = Math.atan2(relativeX, relativeY)
         return (angleRad * (180 / Math.PI) - 180) * -1
@@ -209,11 +210,3 @@ class CircularSlider extends HTMLElement {
 }
 
 customElements.define('circular-slider', CircularSlider);
-const slider = document.getElementById('slider')
-slider.options = {
-    sliderSize: 148,
-    value: 10,
-    max: 100,
-    min: 0,
-    step: 1
-}

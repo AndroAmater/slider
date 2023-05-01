@@ -1,8 +1,6 @@
 .circular-slider {
-    position: absolute;
+    position: relative;
     border-radius: 50%;
-    top: 43px;
-    left: 264px;
  }
 
 #slider {
