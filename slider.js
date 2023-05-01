@@ -102,7 +102,7 @@ class CircularSlider extends HTMLElement {
     }
 
     round(number, increment) {
-        return Math.ceil(number / increment ) * increment;
+        return Math.round(number / increment ) * increment;
     }
 
     getCircumference() {
@@ -120,7 +120,6 @@ class CircularSlider extends HTMLElement {
     getNipplePosition (value) {
         let progressPosition = 360 * this.valueToPercent(value) / 100 - 90
         const progressRad = progressPosition * (Math.PI / 180)
-        console.log()
         return {
             left: this.size + this.size * Math.cos(progressRad),
             top: this.size + this.size * Math.sin(progressRad)
@@ -163,6 +162,7 @@ class CircularSlider extends HTMLElement {
         if (event.screenX === 0) {
             return
         }
+
         this.value = this.percentToValue(
             this.angleToPercent(
                 this.getDragAngle(
@@ -170,6 +170,7 @@ class CircularSlider extends HTMLElement {
                 )
             )
         )
+
         this.setSliderHighlight(this.value)
         this.setNipplePosition(
             this.getNipplePosition(this.value)
@@ -198,6 +199,7 @@ class CircularSlider extends HTMLElement {
         if (!event?.touches[0]) {
             return
         }
+
         this.value = this.percentToValue(
             this.angleToPercent(
                 this.getDragAngle(
@@ -205,6 +207,7 @@ class CircularSlider extends HTMLElement {
                 )
             )
         )
+
         this.setSliderHighlight(this.value)
         this.setNipplePosition(
             this.getNipplePosition(this.value)
