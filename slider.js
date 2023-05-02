@@ -3,7 +3,7 @@ class CircularSlider extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
-            <div class="circular-slider">
+            <div id="slider-container" class="circular-slider">
                 <svg id="slider">
                     <circle 
                         id="slider-highlight" 
@@ -12,6 +12,7 @@ class CircularSlider extends HTMLElement {
                         pathLength="100"
                     ></circle>
                     <circle id="slider-background" cx="50%" cy="50%"></circle>
+                    <circle id="slider-click-area" cx="50%" cy="50%"></circle>
                 </svg>
                 <div id="nipple-container" class="nipple-container">
                     <div 
@@ -35,11 +36,14 @@ class CircularSlider extends HTMLElement {
     slider
     sliderHighlight
     nipple
+    transitionsCount = 0
 
     connectedCallback() {
+        this.sliderContainer = this.shadowRoot.getElementById("slider-container")
         this.slider = this.shadowRoot.getElementById("slider")
         this.sliderBackground = this.shadowRoot.getElementById("slider-background")
         this.sliderHighlight = this.shadowRoot.getElementById("slider-highlight")
+        this.sliderClickArea = this.shadowRoot.getElementById("slider-click-area")
         this.nipple = this.shadowRoot.getElementById("nipple")
         this.nippleContainer = this.shadowRoot.getElementById("nipple-container")
 
@@ -47,6 +51,8 @@ class CircularSlider extends HTMLElement {
         this.nipple.addEventListener('dragstart', this.startDrag.bind(this))
         this.nipple.addEventListener('drag', this.handleSliderDrag.bind(this))
         this.nipple.addEventListener('touchmove', this.handleSliderTouchDrag.bind(this))
+        this.sliderClickArea.addEventListener('click', this.handleSliderClick.bind(this))
+        this.sliderClickArea.addEventListener('touch', this.handleSliderTouch.bind(this))
 
         this.updateContent(this.options);
     }
@@ -54,6 +60,8 @@ class CircularSlider extends HTMLElement {
     updateContent(options) {
         if (!this.isConnected) return
         const sliderStrokeWidth = 22
+        const circlePadding = 3
+        const nippleStrokeSizeDifference = 6
 
         this.size = options.size || 148
         this.value = options.value || 0
@@ -66,11 +74,11 @@ class CircularSlider extends HTMLElement {
         this.sliderBackground.style['stroke-dasharray'] = `${this.calculateDashWidth(this.size)}px, 2px`
         this.sliderBackground.setAttribute('r', this.size)
         this.sliderHighlight.setAttribute('r', this.size)
+        this.sliderClickArea.setAttribute('r', this.size)
         this.sliderHighlight.style.stroke = options.color
 
-        this.nippleContainer.style.left = "-2px"
-        this.nippleContainer.style.top = `${this.size + sliderStrokeWidth / 2}px`
-        this.nippleContainer.style.width = `${this.size * 2 + sliderStrokeWidth + 6}px`
+        this.nippleContainer.style.top = `${this.size + sliderStrokeWidth / 2 + nippleStrokeSizeDifference}px`
+        this.nippleContainer.style.width = `${this.size * 2 + sliderStrokeWidth + nippleStrokeSizeDifference}px`
 
         this.setSliderHighlight(this.value)
         this.setNipplePosition(this.valueToAngle(this.value))
@@ -172,13 +180,17 @@ class CircularSlider extends HTMLElement {
             return
         }
 
-        this.value = this.percentToValue(
+        const newValue = this.percentToValue(
             this.angleToPercent(
                 this.getDragAngle(
                     this.getDragCoordinates(event)
                 )
             )
         )
+
+        if (this.value === newValue) return
+
+        this.value = newValue
 
         this.setSliderHighlight(this.value)
         this.setNipplePosition(
@@ -194,13 +206,17 @@ class CircularSlider extends HTMLElement {
             return
         }
 
-        this.value = this.percentToValue(
+        const newValue = this.percentToValue(
             this.angleToPercent(
                 this.getDragAngle(
                     this.getDragCoordinates(event.touches[0])
                 )
             )
         )
+
+        if (this.value === newValue) return
+
+        this.value = newValue
 
         this.setSliderHighlight(this.value)
         this.setNipplePosition(
@@ -209,6 +225,80 @@ class CircularSlider extends HTMLElement {
 
         const inputEvent = new InputEvent("input", { data: this.value })
         this.dispatchEvent(inputEvent)
+    }
+
+    handleSliderClick (event) {
+        if (event.screenX === 0) {
+            return
+        }
+
+        const newValue = this.percentToValue(
+            this.angleToPercent(
+                this.getDragAngle(
+                    this.getDragCoordinates(event)
+                )
+            )
+        )
+
+        if (this.value === newValue) return
+
+        this.transitionsCount++
+        this.nipple.style['pointer-events'] = 'none'
+        this.sliderContainer.classList.add("circular-slider--transitioning")
+
+        this.value = newValue
+
+        this.setSliderHighlight(this.value)
+        this.setNipplePosition(
+            this.valueToAngle(this.value)
+        )
+
+        const inputEvent = new InputEvent("input", { data: this.value })
+        this.dispatchEvent(inputEvent)
+
+        setTimeout(() => {
+            this.transitionsCount--
+            if (this.transitionsCount === 0) return
+            this.sliderContainer.classList.remove("circular-slider--transitioning")
+            this.nipple.style['pointer-events'] = undefined
+        }, 200)
+    }
+
+    handleSliderTouch (event) {
+        if (!event?.touches[0]) {
+            return
+        }
+
+        const newValue = this.percentToValue(
+            this.angleToPercent(
+                this.getDragAngle(
+                    this.getDragCoordinates(event.touches[0])
+                )
+            )
+        )
+
+        if (this.value === newValue) return
+
+        this.transitionsCount++
+        this.nipple.style['pointer-events'] = 'none'
+        this.sliderContainer.classList.add("circular-slider--transitioning")
+
+        this.value = newValue
+
+        this.setSliderHighlight(this.value)
+        this.setNipplePosition(
+            this.valueToAngle(this.value)
+        )
+
+        const inputEvent = new InputEvent("input", { data: this.value })
+        this.dispatchEvent(inputEvent)
+
+        setTimeout(() => {
+            this.transitionsCount--
+            if (this.transitionsCount === 0) return
+            this.sliderContainer.classList.remove("circular-slider--transitioning")
+            this.nipple.style['pointer-events'] = undefined
+        }, 200)
     }
 }
 

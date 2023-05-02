@@ -58,5 +58,6 @@
 
 .circular-slider-container__sliders circular-slider {
     position: absolute;
-    border-radius: 50%;
+    clip-path: circle(50%);
+    padding: 3px;
 }
