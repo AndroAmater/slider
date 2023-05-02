@@ -1,6 +1,7 @@
 class CircularSliderContainer extends HTMLElement {
-    constructor() {
+    constructor(options) {
         super();
+        this._options = options
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
             <div class="circular-slider-container">
@@ -60,8 +61,7 @@ class CircularSliderContainer extends HTMLElement {
         this.reset()
 
         for (let sliderOptions of options) {
-            const slider = new CircularSlider()
-            slider.options = sliderOptions
+            const slider = new CircularSlider(sliderOptions)
 
             const valueContainer = document.createElement("div")
             valueContainer.className = "circular-slider-legend__value-container"

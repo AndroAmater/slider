@@ -1,5 +1,5 @@
 class CircularSlider extends HTMLElement {
-    constructor() {
+    constructor(options) {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
@@ -24,6 +24,7 @@ class CircularSlider extends HTMLElement {
             </div>
             <link rel="stylesheet" href="css/slider.css">
         `;
+        this._options = options
     }
 
     _options = {}
