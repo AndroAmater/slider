@@ -2,12 +2,14 @@ body {
     display: flex;
 }
 
+/* Make this visible to compare the slider to the example */
 .template {
     position: absolute;
-    top: 50px;
-    left: 51.3px;
-    z-index: -10;
+    top: 18px;
+    left: 59.3px;
+    z-index: 10;
     width: 651px;
+    opacity: 0.5;
     display: none;
 }
 

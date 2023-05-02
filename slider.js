@@ -22,7 +22,7 @@ class CircularSlider extends HTMLElement {
                     ></div>
                 </div>
             </div>
-            <link rel="stylesheet" href="css/circular-slider.css">
+            <link rel="stylesheet" href="css/slider.css">
         `;
     }
 
@@ -98,7 +98,7 @@ class CircularSlider extends HTMLElement {
         let bestD = 6.7;
         let bestDError = 9999;
         let currentD = 6.7;
-        while (currentD >= 5.7) {
+        while (currentD >= 6.3) {
             if (C % (currentD + 2) < bestDError) {
                 bestD = currentD
                 bestDError = C % (currentD + 2)
