@@ -256,12 +256,16 @@ class CircularSlider extends HTMLElement {
         const inputEvent = new InputEvent("input", { data: this.value })
         this.dispatchEvent(inputEvent)
 
-        setTimeout(() => {
+        const transitionEndHandler = (event => {
             this.transitionsCount--
-            if (this.transitionsCount === 0) return
-            this.sliderContainer.classList.remove("circular-slider--transitioning")
-            this.nipple.style['pointer-events'] = undefined
-        }, 200)
+            if (this.transitionsCount === 0) {
+                this.sliderContainer.classList.remove("circular-slider--transitioning")
+                this.nipple.style['pointer-events'] = null
+            }
+            this.nippleContainer.removeEventListener("transitionend", transitionEndHandler)
+        })
+
+        this.nippleContainer.addEventListener("transitionend", transitionEndHandler)
     }
 
     handleSliderTouch (event) {
@@ -293,12 +297,16 @@ class CircularSlider extends HTMLElement {
         const inputEvent = new InputEvent("input", { data: this.value })
         this.dispatchEvent(inputEvent)
 
-        setTimeout(() => {
+        const transitionEndHandler = (event => {
             this.transitionsCount--
-            if (this.transitionsCount === 0) return
-            this.sliderContainer.classList.remove("circular-slider--transitioning")
-            this.nipple.style['pointer-events'] = undefined
-        }, 200)
+            if (this.transitionsCount === 0) {
+                this.sliderContainer.classList.remove("circular-slider--transitioning")
+                this.nipple.style['pointer-events'] = null
+            }
+            this.nippleContainer.removeEventListener("transitionend", transitionEndHandler)
+        })
+
+        this.nippleContainer.addEventListener("transitionend", transitionEndHandler)
     }
 }
 

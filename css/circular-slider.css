@@ -1,3 +1,7 @@
+:host {
+    --slider-transition-duration: 0.2s;
+}
+
 .circular-slider {
     position: relative;
     clip-path: circle(50%);
@@ -8,15 +12,15 @@
 }
 
 .circular-slider--transitioning .nipple-container {
-    transition: transform 0.2s ease;
+    transition: transform var(--slider-transition-duration) ease;
 }
 
 .circular-slider--transitioning .nipple {
-    transition: transform 0.2s ease;
+    transition: transform var(--slider-transition-duration) ease;
 }
 
 .circular-slider--transitioning #slider-highlight {
-    transition: stroke-dashoffset 0.2s ease;
+    transition: stroke-dashoffset var(--slider-transition-duration) ease;
 }
 
 #slider {
