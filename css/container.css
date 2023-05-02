@@ -1,6 +1,8 @@
 .circular-slider-container {
-    display: flex;
+    display: grid;
     background: linear-gradient(360deg, #e4e4e4, #f6f6f6);
+    padding: 10px 25px;
+    grid-template-columns: repeat(2, auto);
 }
 
 .circular-slider-container__legends-container {
@@ -8,13 +10,25 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    grid-row: 1/3;
 }
 
 .circular-slider-container__legends {
     display: grid;
     grid-template-columns: auto auto auto;
-    padding: 0 25px;
+    padding: 0 25px 0 0;
     align-items: end;
+}
+
+.circular-slider-container__title {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    margin: 6px 0;
+    font-size: 12px;
+    font-family: sans-serif;
 }
 
 .circular-slider-legend__value-container {

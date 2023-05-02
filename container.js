@@ -14,12 +14,14 @@ class CircularSliderContainer extends HTMLElement {
                     id="sliders" 
                     class="circular-slider-container__sliders"
                 ></div>
+                <h3 class="circular-slider-container__title" id="title"></h3>
             </div>
             <link rel="stylesheet" href="css/container.css">
         `;
     }
 
     _options = []
+    _title = ""
     sliders = []
 
     reset() {
@@ -36,6 +38,21 @@ class CircularSliderContainer extends HTMLElement {
 
         this.legendsContainer = this.shadowRoot.getElementById('legends')
         this.slidersContainer = this.shadowRoot.getElementById('sliders')
+        this.titleElement = this.shadowRoot.getElementById('title')
+
+        this.updateTitle()
+    }
+
+    updateTitle () {
+        if (this._title) {
+            this.titleElement.style.display = "block"
+            this.titleElement.innerHTML = this._title
+            this.slidersContainer.style['grid-row'] = "1/2"
+        } else {
+            this.titleElement.style.display = "none"
+            this.titleElement.innerHTML = ""
+            this.slidersContainer.style['grid-row'] = "1/3"
+        }
     }
 
     updateContent(options) {
@@ -55,7 +72,7 @@ class CircularSliderContainer extends HTMLElement {
             value.className = "circular-slider-legend__value"
 
             const valueSizer = document.createElement("span")
-            valueSizer.innerHTML = `${sliderOptions.prefix}${sliderOptions.value}`.split("").map(e => "W").join("")
+            valueSizer.innerHTML = `${sliderOptions.prefix}${sliderOptions.max}`.split("").map(e => "0").join("")
 
             valueSizer.className = "circular-slider-legend__value-sizer"
             valueContainer.appendChild(valueSizer)
@@ -100,18 +117,27 @@ class CircularSliderContainer extends HTMLElement {
         }
 
         if (!options[0]) return
-        this.slidersContainer.style.width = options[0].size * 2 + 50 + "px"
-        this.slidersContainer.style.height = options[0].size * 2 + 50 + "px"
+        this.slidersContainer.style.width = options[0].size * 2 + 40 + "px"
+        this.slidersContainer.style.height = options[0].size * 2 + 40 + "px"
     }
 
     set options(value) {
         if (!Array.isArray(value)) this._options = []
-        this._options = value.sort((a, b) => a - b);
-        this.updateContent(this._options);
+        this._options = value.sort((a, b) => a - b)
+        this.updateContent(this._options)
     }
 
     get options() {
-        return this._options;
+        return this._options
+    }
+
+    set title(title) {
+        this._title = title
+        this.updateTitle()
+    }
+
+    get title() {
+        return this._title
     }
 
     // This is not technically a library, but truth be told, I did copy this
@@ -123,23 +149,23 @@ class CircularSliderContainer extends HTMLElement {
     // there are no written requirements regarding gradients I think it's ok.
     // There are better algorithms out there that I would use in production.
     lightenDarkenColor(col, amt) {
-        var usePound = false;
+        var usePound = false
         if (col[0] == "#") {
-            col = col.slice(1);
-            usePound = true;
+            col = col.slice(1)
+            usePound = true
         }
-        var num = parseInt(col,16);
-        var r = (num >> 16) + amt;
-        if (r > 255) r = 255;
-        else if  (r < 0) r = 0;
-        var b = ((num >> 8) & 0x00FF) + amt;
-        if (b > 255) b = 255;
-        else if  (b < 0) b = 0;
-        var g = (num & 0x0000FF) + amt;
-        if (g > 255) g = 255;
-        else if (g < 0) g = 0;
-        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+        var num = parseInt(col,16)
+        var r = (num >> 16) + amt
+        if (r > 255) r = 255
+        else if  (r < 0) r = 0
+        var b = ((num >> 8) & 0x00FF) + amt
+        if (b > 255) b = 255
+        else if  (b < 0) b = 0
+        var g = (num & 0x0000FF) + amt
+        if (g > 255) g = 255
+        else if (g < 0) g = 0
+        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16)
     }
 }
 
-customElements.define('circular-slider-container', CircularSliderContainer);
+customElements.define('circular-slider-container', CircularSliderContainer)
